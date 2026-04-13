@@ -94,15 +94,9 @@ All side effects (`time.sleep`, `print`) are injected via hooks (`transfers.py`)
 - `dataset/control_sample.csv` — First 5 rows of the control group (N = 21)
 - `dataset/data_dictionary.md` — Full variable definitions, formula references, and encoding tables
 
-## Known Limitations
-
-See `REPRODUCIBILITY_MANIFEST.md` for a complete list of:
-- **What is reproduced** (core orchestration, all guardrails, scoring formulas, item-generation pipeline, dataset samples)
-- **What is not reproduced** (network-timeout retry loops, experimental LLM temperature sweeps — these were not archived in the original development environment)
 
 ## Citation
-
-If you use this code or dataset, please cite the associated manuscript.
+NA
 
 ## License
 
