@@ -1,0 +1,77 @@
+{
+  "version": "1.0.0",
+  "description": "Structured item-generation templates for the Data Structures and Algorithms tutoring system. Each template defines a consistent skeleton that the LLM populates based on the student's current difficulty and weak knowledge points.",
+  "meta_rules": {
+    "difficulty_mapping": {
+      "easy": {
+        "cognitive_level": ["Remember", "Understand"],
+        "time_limit_seconds": 180,
+        "code_length_lines": "N/A",
+        "hint_count": 2
+      },
+      "medium": {
+        "cognitive_level": ["Apply", "Analyze"],
+        "time_limit_seconds": 300,
+        "code_length_lines": "5–15",
+        "hint_count": 1
+      },
+      "hard": {
+        "cognitive_level": ["Evaluate", "Create"],
+        "time_limit_seconds": 480,
+        "code_length_lines": "15–30",
+        "hint_count": 0
+      }
+    },
+    "weak_point_priority": "When generating a question, the primary knowledge point must be drawn from the student's weak_points set. If weak_points is empty, sample uniformly from the current topic syllabus.",
+    "distractor_policy": "For multiple-choice items, exactly 3 distractors must be provided. Each distractor must reflect a common student misconception documented in the error-type taxonomy."
+  },
+  "templates": [
+    {
+      "template_id": "DS-CONCEPT-01",
+      "question_type": "概念题",
+      "skeleton": "请解释 **{{knowledge_point}}** 的 {{aspect}}。\n\n要求：\n- 说明其定义；\n- 指出至少 {{n}} 个关键特性；\n- 给出一个适用场景。",
+      "placeholders": {
+        "knowledge_point": "从 weak_points 中抽取",
+        "aspect": ["基本概念", "核心特性", "适用场景", "时间复杂度影响"],
+        "n": "根据难度取 1(easy), 2(medium), 3(hard)"
+      },
+      "example": {
+        "difficulty": "medium",
+        "knowledge_point": "链表",
+        "filled_question": "请解释 **链表** 的核心特性。\n\n要求：\n- 说明其定义；\n- 指出至少 2 个关键特性；\n- 给出一个适用场景。"
+      }
+    },
+    {
+      "template_id": "DS-CODE-FIX-01",
+      "question_type": "程序纠错题",
+      "skeleton": "下面是一段实现 **{{knowledge_point}}** 的代码。请找出其中的错误行，并说明错误原因及修改方法。\n\n```python\n{{code_snippet}}\n```",
+      "placeholders": {
+        "knowledge_point": "从 weak_points 中抽取",
+        "code_snippet": "由 LLM 根据 knowledge_point 和 difficulty 生成，必须包含 1 个逻辑错误"
+      },
+      "example": {
+        "difficulty": "medium",
+        "knowledge_point": "二叉树遍历",
+        "filled_question": "下面是一段实现 **二叉树中序遍历** 的代码。请找出其中的错误行，并说明错误原因及修改方法。\n\n```python\ndef inorder(root):\n    if root:\n        inorder(root.right)   # 错误行\n        print(root.val)\n        inorder(root.left)\n```"
+      }
+    },
+    {
+      "template_id": "DS-CODE-WRITE-01",
+      "question_type": "coding",
+      "skeleton": "请编写一个函数，实现 **{{knowledge_point}}** 的 {{operation}}。\n\n函数签名：`{{function_signature}}`\n\n约束：\n- 时间复杂度：{{time_complexity}}\n- 空间复杂度：{{space_complexity}}\n- 不允许使用 {{forbidden_api}}",
+      "placeholders": {
+        "knowledge_point": "从 weak_points 中抽取",
+        "operation": ["插入", "删除", "查找", "遍历", "排序"],
+        "function_signature": "由模板根据 knowledge_point 自动生成",
+        "time_complexity": "依据 difficulty 设定: easy=O(n), medium=O(log n), hard=O(1) 平均",
+        "space_complexity": "依据 difficulty 设定: easy=O(n), medium=O(log n), hard=O(1)",
+        "forbidden_api": "依据难度决定是否禁用内置高级数据结构"
+      },
+      "example": {
+        "difficulty": "hard",
+        "knowledge_point": "LRU 缓存",
+        "filled_question": "请编写一个类 `LRUCache`，实现最近最少使用（LRU）缓存机制。\n\n函数签名：`class LRUCache: def __init__(self, capacity: int): ...`\n\n约束：\n- 时间复杂度：`get` 和 `put` 平均 O(1)\n- 空间复杂度：O(capacity)\n- 不允许使用 `collections.OrderedDict`"
+      }
+    }
+  ]
+}
