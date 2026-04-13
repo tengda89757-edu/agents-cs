@@ -1,4 +1,4 @@
-# Multi-Agent Intelligent Tutoring System — Reproducibility Package
+# Multi-Agent Intelligent Tutoring System
 
 This directory contains the fully modular, version-locked, and tested supplementary code for the manuscript *"A Multi-Agent Intelligent Tutoring System for Data Structures and Algorithms"*.
 
